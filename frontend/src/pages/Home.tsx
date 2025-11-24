@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
 import type { Article } from '../types';
@@ -31,10 +31,10 @@ const Home = () => {
         fetchArticles();
     }, []);
 
-    const handleSearch = (query: string) => {
+    const handleSearch = useCallback((query: string) => {
         setSearchQuery(query);
         fetchArticles(query);
-    };
+    }, []);
 
     const getExcerpt = (html: string) => {
         const text = html.replace(/<[^>]*>/g, '');
