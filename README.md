@@ -9,8 +9,8 @@
 - **Database**: PostgreSQL (Supabase)
 - **Storage**: Cloudinary (Image uploads)
 - **Deployment**: 
-  - Frontend: Vercel → `mhieu100.me`
-  - Backend: AWS EC2 + Docker → `api.mhieu100.me`
+  - Frontend: Vercel → https://deloy-fullstack.vercel.app/
+  - Backend: Render → https://be-app-86nz.onrender.com
 
 ## ✨ Tính năng
 
@@ -216,10 +216,10 @@ npm run preview
 
 ### DevOps
 - **Docker** - Containerization
-- **Nginx** - Reverse proxy
-- **Let's Encrypt** - SSL certificates
 - **Vercel** - Frontend hosting
-- **AWS EC2** - Backend hosting
+- **Render** - Backend hosting (Docker)
+- **Supabase** - PostgreSQL database
+- **Cloudinary** - Image storage
 
 ## 🤝 Contributing
 
