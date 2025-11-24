@@ -1,4 +1,15 @@
-import { ChevronDown, LogOut, Menu, Moon, PenSquare, ShieldCheck, Sun, User, X } from 'lucide-react'
+import {
+  ChevronDown,
+  FileText,
+  LogOut,
+  Menu,
+  Moon,
+  PenSquare,
+  ShieldCheck,
+  Sun,
+  User,
+  X,
+} from 'lucide-react'
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
@@ -44,6 +55,13 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-2">
+            <Link
+              to="/cv"
+              className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+            >
+              <FileText className="w-5 h-5 mr-1" />
+              CV
+            </Link>
             {isAuthenticated ? (
               <>
                 <Link

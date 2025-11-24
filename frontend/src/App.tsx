@@ -8,6 +8,7 @@ import AdminArticleList from './pages/AdminArticleList'
 import AdminDashboard from './pages/AdminDashboard'
 import ArticleDetail from './pages/ArticleDetail'
 import CreateArticle from './pages/CreateArticle'
+import CV from './pages/CV'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import MyArticles from './pages/MyArticles'
@@ -26,6 +27,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/article/:id" element={<ArticleDetail />} />
+                <Route path="/cv" element={<CV />} />
 
                 <Route element={<GuestRoute />}>
                   <Route path="/login" element={<Login />} />
