@@ -47,11 +47,19 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // Allow all origins with credentials
+
+        // Specify exact origins (required when allowCredentials = true)
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:5173", // Local frontend
+                "http://localhost:3000", // Alternative local port
+                "https://deloy-fullstack.vercel.app" // Production frontend
+        ));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
