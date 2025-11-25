@@ -16,15 +16,18 @@
     "*.{ts,tsx,js,jsx,json}": "biome check --write"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@types/dompurify": "^3.0.5",
     "axios": "^1.13.2",
     "dompurify": "^3.3.0",
     "lucide-react": "^0.554.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.66.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^7.9.6",
-    "react-spinners": "^0.13.8"
+    "react-spinners": "^0.13.8",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.7",

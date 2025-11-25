@@ -12,6 +12,7 @@ import CV from './pages/CV'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import MyArticles from './pages/MyArticles'
+import OAuth2RedirectHandler from './pages/OAuth2RedirectHandler'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
 
@@ -32,6 +33,7 @@ function App() {
                 <Route element={<GuestRoute />}>
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
                 </Route>
 
                 <Route element={<ProtectedRoute />}>

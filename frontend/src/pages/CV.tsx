@@ -14,12 +14,12 @@ import {
 
 const CV = () => {
   return (
-    <div className="h-[calc(100vh-4rem)] bg-gray-50 dark:bg-gray-900 overflow-hidden">
-      <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="h-full bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden">
-          <div className="h-full grid grid-cols-1 lg:grid-cols-3 gap-0">
+    <div className="lg:h-[calc(100vh-4rem)] h-auto bg-gray-50 dark:bg-gray-900 lg:overflow-hidden">
+      <div className="lg:h-full h-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="lg:h-full h-auto bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden">
+          <div className="lg:h-full h-auto grid grid-cols-1 lg:grid-cols-3 gap-0">
             {/* Left Sidebar - 1/3 width */}
-            <div className="lg:col-span-1 bg-gradient-to-b from-gray-800 to-gray-900 dark:from-gray-900 dark:to-black text-white p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 hover:scrollbar-thumb-gray-500">
+            <div className="lg:col-span-1 bg-gradient-to-b from-gray-800 to-gray-900 dark:from-gray-900 dark:to-black text-white p-6 lg:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 hover:scrollbar-thumb-gray-500">
               {/* Profile Photo */}
               <div className="flex justify-center mb-6">
                 <img
@@ -157,7 +157,7 @@ const CV = () => {
             </div>
 
             {/* Right Content - 2/3 width */}
-            <div className="lg:col-span-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800 hover:scrollbar-thumb-gray-500 dark:hover:scrollbar-thumb-gray-500">
+            <div className="lg:col-span-2 lg:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800 hover:scrollbar-thumb-gray-500 dark:hover:scrollbar-thumb-gray-500">
               {/* Career Goals */}
               <section className="mb-6 px-6 pt-6">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 border-b-2 border-gray-300 dark:border-gray-600 pb-1">
