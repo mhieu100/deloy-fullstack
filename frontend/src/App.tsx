@@ -1,7 +1,9 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import Footer from './components/Footer'
 import GuestRoute from './components/GuestRoute'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
+import ScrollToTop from './components/ScrollToTop'
 import { AuthProvider } from './context/AuthContext'
 import { DarkModeProvider } from './context/DarkModeContext'
 import AdminArticleList from './pages/AdminArticleList'
@@ -21,6 +23,7 @@ function App() {
     <DarkModeProvider>
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors">
             <Navbar />
             {/* Add padding-top to prevent content from being hidden under fixed navbar */}
@@ -48,6 +51,7 @@ function App() {
                 </Route>
               </Routes>
             </main>
+            <Footer />
           </div>
         </Router>
       </AuthProvider>

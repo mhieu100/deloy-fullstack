@@ -49,7 +49,7 @@ const Navbar = () => {
               className="text-xl font-bold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               onClick={closeMobileMenu}
             >
-              BlogApp
+              Story Zone
             </Link>
           </div>
 
