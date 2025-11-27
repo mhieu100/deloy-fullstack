@@ -37,4 +37,8 @@ jwt:
   secret: ${JWT_SECRET:verysecretkeythatshouldbechangedinproduction}
   expiration: 86400000 # 1 day
 
+application:
+  frontend:
+    url: ${FRONTEND_URL:http://localhost:5173}
+
 

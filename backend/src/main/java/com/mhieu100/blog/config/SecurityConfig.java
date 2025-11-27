@@ -3,6 +3,7 @@ package com.mhieu100.blog.config;
 import com.mhieu100.blog.security.JwtAuthenticationFilter;
 import com.mhieu100.blog.security.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -52,6 +53,9 @@ public class SecurityConfig {
                 return http.build();
         }
 
+        @Value("${application.frontend.url:http://localhost:5173}")
+        private String frontendUrl;
+
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
@@ -62,7 +66,8 @@ public class SecurityConfig {
                                 "http://localhost:3000", // Alternative local port
                                 "https://deloy-fullstack.vercel.app", // Production frontend (Vercel)
                                 "https://mhieu100.space", // Production frontend (main domain)
-                                "https://www.mhieu100.space" // Production frontend (www subdomain)
+                                "https://www.mhieu100.space", // Production frontend (www subdomain)
+                                frontendUrl // Dynamic frontend URL
                 ));
 
                 configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
