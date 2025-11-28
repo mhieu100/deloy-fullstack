@@ -31,6 +31,14 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getAllApprovedArticles());
     }
 
+    @GetMapping("/public/all")
+    public ResponseEntity<org.springframework.data.domain.Page<Article>> getAllPublicArticles(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String query) {
+        return ResponseEntity.ok(articleService.getApprovedArticles(page, size, query));
+    }
+
     @GetMapping("/public/{id}")
     public ResponseEntity<Article> getArticleById(@PathVariable Long id) {
         return ResponseEntity.ok(articleService.getArticleById(id));

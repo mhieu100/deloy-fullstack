@@ -36,7 +36,8 @@ public class ArticleService {
         List<String> tags = new ArrayList<>();
         if (tagsJson != null && !tagsJson.isEmpty()) {
             try {
-                tags = objectMapper.readValue(tagsJson, new TypeReference<List<String>>() {});
+                tags = objectMapper.readValue(tagsJson, new TypeReference<List<String>>() {
+                });
             } catch (Exception e) {
                 // Log error but continue without tags
                 System.err.println("Error parsing tags: " + e.getMessage());
@@ -57,6 +58,15 @@ public class ArticleService {
 
     public List<Article> getAllApprovedArticles() {
         return articleRepository.findByStatus(ArticleStatus.APPROVED);
+    }
+
+    public org.springframework.data.domain.Page<Article> getApprovedArticles(int page, int size, String query) {
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size,
+                org.springframework.data.domain.Sort.by("createdAt").descending());
+        if (query != null && !query.trim().isEmpty()) {
+            return articleRepository.searchApprovedArticles(query.trim(), pageable);
+        }
+        return articleRepository.findByStatus(ArticleStatus.APPROVED, pageable);
     }
 
     public Article getArticleById(Long id) {

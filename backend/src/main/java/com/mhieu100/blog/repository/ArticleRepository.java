@@ -12,4 +12,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @org.springframework.data.jpa.repository.Query("SELECT a FROM Article a WHERE a.status = 'APPROVED' AND (LOWER(a.title) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(a.content) LIKE LOWER(CONCAT('%', :query, '%')))")
     List<Article> searchArticles(@org.springframework.data.repository.query.Param("query") String query);
+
+    org.springframework.data.domain.Page<Article> findByStatus(ArticleStatus status,
+            org.springframework.data.domain.Pageable pageable);
+
+    @org.springframework.data.jpa.repository.Query("SELECT a FROM Article a WHERE a.status = 'APPROVED' AND (:query IS NULL OR LOWER(a.title) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(a.content) LIKE LOWER(CONCAT('%', :query, '%')))")
+    org.springframework.data.domain.Page<Article> searchApprovedArticles(
+            @org.springframework.data.repository.query.Param("query") String query,
+            org.springframework.data.domain.Pageable pageable);
 }

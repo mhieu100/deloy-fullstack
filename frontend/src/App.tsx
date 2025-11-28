@@ -13,6 +13,8 @@ import Login from './pages/auth/Login'
 import OAuth2RedirectHandler from './pages/auth/OAuth2RedirectHandler'
 import Register from './pages/auth/Register'
 import ArticleDetail from './pages/client/ArticleDetail'
+import ArticlesPage from './pages/client/ArticlesPage'
+import ChatBotPage from './pages/client/ChatBotPage'
 import CreateArticle from './pages/client/CreateArticle'
 import CV from './pages/client/CV'
 import Home from './pages/client/Home'
@@ -39,6 +41,8 @@ function App() {
             <Route element={<MainLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/article/:id" element={<ArticleDetail />} />
+              <Route path="/articles" element={<ArticlesPage />} />
+              <Route path="/chatbot" element={<ChatBotPage />} />
               <Route path="/cv" element={<CV />} />
 
               <Route element={<GuestRoute />}>

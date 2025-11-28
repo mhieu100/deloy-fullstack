@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify'
-import { Calendar, Clock, Eye, FileEdit, User } from 'lucide-react'
+import { Calendar, Clock, Eye, FileEdit, Sparkles, User, Wand2, X } from 'lucide-react'
 import type React from 'react'
 import { useState } from 'react'
 import ReactQuill from 'react-quill'
@@ -41,6 +41,12 @@ const CreateArticle = () => {
   const [tags, setTags] = useState<string[]>([])
   const [tagInput, setTagInput] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // AI Generation State
+  const [showAiModal, setShowAiModal] = useState(false)
+  const [aiPrompt, setAiPrompt] = useState('')
+  const [isGeneratingAi, setIsGeneratingAi] = useState(false)
+
   const navigate = useNavigate()
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +60,37 @@ const CreateArticle = () => {
       reader.readAsDataURL(file)
     } else {
       setImagePreview('')
+    }
+  }
+
+  const handleAiGenerate = async () => {
+    if (!aiPrompt.trim()) return
+    setIsGeneratingAi(true)
+    try {
+      const response = await api.post('/ai/generate', { prompt: aiPrompt })
+      const {
+        title: generatedTitle,
+        content: generatedContent,
+        tags: generatedTags,
+      } = response.data
+
+      if (generatedTitle) setTitle(generatedTitle)
+      if (generatedContent) setContent(generatedContent)
+      if (generatedTags && Array.isArray(generatedTags)) {
+        // Merge new tags with existing ones, avoiding duplicates
+        setTags((prevTags) => {
+          const newTags = generatedTags.filter((tag) => !prevTags.includes(tag))
+          return [...prevTags, ...newTags]
+        })
+      }
+
+      setShowAiModal(false)
+      setAiPrompt('')
+    } catch (error) {
+      console.error('Error generating AI content:', error)
+      alert('Failed to generate content. Please try again.')
+    } finally {
+      setIsGeneratingAi(false)
     }
   }
 
@@ -90,23 +127,33 @@ const CreateArticle = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold dark:text-white">Create New Article</h1>
-        <button
-          type="button"
-          onClick={() => setShowPreview(!showPreview)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-        >
-          {showPreview ? (
-            <>
-              <FileEdit className="w-5 h-5" />
-              Edit
-            </>
-          ) : (
-            <>
-              <Eye className="w-5 h-5" />
-              Preview
-            </>
-          )}
-        </button>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => setShowAiModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-md"
+          >
+            <Sparkles className="w-5 h-5" />
+            Generate with AI
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowPreview(!showPreview)}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+          >
+            {showPreview ? (
+              <>
+                <FileEdit className="w-5 h-5" />
+                Edit
+              </>
+            ) : (
+              <>
+                <Eye className="w-5 h-5" />
+                Preview
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -147,18 +194,91 @@ const CreateArticle = () => {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Image
               </label>
-              <input
-                type="file"
-                onChange={handleImageChange}
-                className="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400
-                                file:mr-4 file:py-2 file:px-4
-                                file:rounded-full file:border-0
-                                file:text-sm file:font-semibold
-                                file:bg-blue-50 file:text-blue-700
-                                dark:file:bg-blue-900 dark:file:text-blue-300
-                                hover:file:bg-blue-100 dark:hover:file:bg-blue-800"
-                accept="image/*"
-              />
+              <button
+                type="button"
+                className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md transition-colors ${
+                  image
+                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                    : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                }`}
+                onDragOver={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                }}
+                onDrop={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  const file = e.dataTransfer.files?.[0]
+                  if (file?.type.startsWith('image/')) {
+                    setImage(file)
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                      setImagePreview(reader.result as string)
+                    }
+                    reader.readAsDataURL(file)
+                  }
+                }}
+              >
+                <div className="space-y-1 text-center">
+                  {imagePreview ? (
+                    <div className="relative">
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="mx-auto h-48 object-cover rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setImage(null)
+                          setImagePreview('')
+                        }}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <svg
+                        className="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <div className="flex text-sm text-gray-600 dark:text-gray-400 justify-center">
+                        <label
+                          htmlFor="file-upload"
+                          className="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                        >
+                          <span>Upload a file</span>
+                          <input
+                            id="file-upload"
+                            name="file-upload"
+                            type="file"
+                            className="sr-only"
+                            onChange={handleImageChange}
+                            accept="image/*"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        PNG, JPG, GIF up to 10MB
+                      </p>
+                    </>
+                  )}
+                </div>
+              </button>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -300,6 +420,64 @@ const CreateArticle = () => {
           </div>
         </div>
       </div>
+
+      {/* AI Generation Modal */}
+      {showAiModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full p-6 transform transition-all scale-100">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <Wand2 className="w-6 h-6 text-purple-500" />
+                AI Assistant
+              </h3>
+              <button
+                onClick={() => setShowAiModal(false)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                What would you like to write about?
+              </label>
+              <textarea
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                placeholder="E.g., Write a comprehensive guide about React hooks for beginners..."
+                className="w-full h-32 rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+              />
+            </div>
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowAiModal(false)}
+                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAiGenerate}
+                disabled={isGeneratingAi || !aiPrompt.trim()}
+                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isGeneratingAi ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Generate
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

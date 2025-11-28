@@ -1,3 +1,4 @@
+import { RobotOutlined } from '@ant-design/icons'
 import {
   ChevronDown,
   FileText,
@@ -52,6 +53,20 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-2">
+            <Link
+              to="/articles"
+              className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+            >
+              <FileText className="w-5 h-5 mr-1" />
+              Articles
+            </Link>
+            <Link
+              to="/chatbot"
+              className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+            >
+              <RobotOutlined className="w-5 h-5 mr-1" />
+              Chatbot
+            </Link>
             <Link
               to="/cv"
               className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
@@ -187,6 +202,22 @@ const Navbar = () => {
                 </Link>
               )}
               <Link
+                to="/articles"
+                className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-colors"
+                onClick={closeMobileMenu}
+              >
+                <FileText className="w-5 h-5 mr-2" />
+                Articles
+              </Link>
+              <Link
+                to="/chatbot"
+                className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-colors"
+                onClick={closeMobileMenu}
+              >
+                <RobotOutlined className="w-5 h-5 mr-2" />
+                Chatbot
+              </Link>
+              <Link
                 to="/create-article"
                 className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-colors"
                 onClick={closeMobileMenu}
@@ -235,6 +266,22 @@ const Navbar = () => {
             </>
           ) : (
             <>
+              <Link
+                to="/articles"
+                className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-colors"
+                onClick={closeMobileMenu}
+              >
+                <FileText className="w-5 h-5 mr-2" />
+                Articles
+              </Link>
+              <Link
+                to="/chatbot"
+                className="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-colors"
+                onClick={closeMobileMenu}
+              >
+                <RobotOutlined className="w-5 h-5 mr-2" />
+                Chatbot
+              </Link>
               <button
                 onClick={toggleDarkMode}
                 className="flex items-center w-full px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-colors"
