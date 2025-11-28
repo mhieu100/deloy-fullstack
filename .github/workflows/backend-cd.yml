@@ -1,0 +1,30 @@
+name: Backend CD
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy:
+    name: Deploy Backend to Render
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        working-directory: ./backend
+        run: mvn clean package -DskipTests
+
+      - name: Trigger Render Deploy
+        if: success()
+        run: curl "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
