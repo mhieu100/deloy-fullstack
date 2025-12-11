@@ -67,16 +67,16 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:latest
             
             # Stop and remove existing containers
-            docker-compose down
+            docker compose down
             
             # Remove old images to save space
             docker image prune -f
             
             # Start new containers (will use pulled image)
-            docker-compose up -d
+            docker compose up -d
             
             # Show container status
-            docker-compose ps
+            docker compose ps
             
             # Show logs for verification
-            docker-compose logs --tail=50 backend
+            docker compose logs --tail=50 backend
