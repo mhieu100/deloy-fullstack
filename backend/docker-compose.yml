@@ -6,7 +6,7 @@ services:
     container_name: blog-backend
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "8088:8088"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - DB_URL=${DB_URL}
