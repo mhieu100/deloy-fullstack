@@ -38,6 +38,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/auth/**").permitAll()
                                                 .requestMatchers("/api/articles/public/**").permitAll()
                                                 .requestMatchers("/api/project-info").permitAll()
+                                                .requestMatchers("/api/welcome").permitAll()
                                                 .requestMatchers(org.springframework.http.HttpMethod.GET,
                                                                 "/api/articles")
                                                 .permitAll()
