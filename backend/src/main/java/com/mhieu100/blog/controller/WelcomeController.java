@@ -13,6 +13,6 @@ public class WelcomeController {
 
     @GetMapping
     public ResponseEntity<Map<String, String>> welcome() {
-        return ResponseEntity.ok(Map.of("message", "Welcome to the API! CI/CD is working."));
+        return ResponseEntity.ok(Map.of("message", "Welcome to the API! CI/CD is working. Test"));
     }
 }
